@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { UserButton, SignedIn, SignedOut } from "@clerk/nextjs";
+import { UserButton, useAuth } from "@clerk/nextjs";
 
 const NAV_LINKS = [
   { href: "/explore", label: "Explore" },
@@ -12,6 +12,7 @@ const NAV_LINKS = [
 
 export default function Navbar() {
   const pathname = usePathname();
+  const { isSignedIn } = useAuth();
 
   return (
     <nav
@@ -71,40 +72,43 @@ export default function Navbar() {
 
       {/* Right side */}
       <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-        <SignedIn>
-          <Link
-            href="/upload"
-            style={{
-              padding: "8px 18px", borderRadius: 8, fontSize: 14, fontWeight: 500,
-              background: "var(--orange)", color: "white", textDecoration: "none",
-              display: "flex", alignItems: "center", gap: 6,
-            }}
-          >
-            + Upload Splat
-          </Link>
-          <UserButton afterSignOutUrl="/explore" />
-        </SignedIn>
-        <SignedOut>
-          <Link
-            href="/sign-in"
-            style={{
-              padding: "8px 18px", borderRadius: 8, fontSize: 14, fontWeight: 500,
-              background: "var(--card2)", color: "var(--text)", textDecoration: "none",
-              border: "1px solid var(--border)",
-            }}
-          >
-            Sign in
-          </Link>
-          <Link
-            href="/sign-up"
-            style={{
-              padding: "8px 18px", borderRadius: 8, fontSize: 14, fontWeight: 500,
-              background: "var(--orange)", color: "white", textDecoration: "none",
-            }}
-          >
-            Get started
-          </Link>
-        </SignedOut>
+        {isSignedIn ? (
+          <>
+            <Link
+              href="/upload"
+              style={{
+                padding: "8px 18px", borderRadius: 8, fontSize: 14, fontWeight: 500,
+                background: "var(--orange)", color: "white", textDecoration: "none",
+                display: "flex", alignItems: "center", gap: 6,
+              }}
+            >
+              + Upload Splat
+            </Link>
+            <UserButton afterSignOutUrl="/explore" />
+          </>
+        ) : (
+          <>
+            <Link
+              href="/sign-in"
+              style={{
+                padding: "8px 18px", borderRadius: 8, fontSize: 14, fontWeight: 500,
+                background: "var(--card2)", color: "var(--text)", textDecoration: "none",
+                border: "1px solid var(--border)",
+              }}
+            >
+              Sign in
+            </Link>
+            <Link
+              href="/sign-up"
+              style={{
+                padding: "8px 18px", borderRadius: 8, fontSize: 14, fontWeight: 500,
+                background: "var(--orange)", color: "white", textDecoration: "none",
+              }}
+            >
+              Get started
+            </Link>
+          </>
+        )}
       </div>
     </nav>
   );
