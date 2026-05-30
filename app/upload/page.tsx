@@ -25,8 +25,6 @@ export default function UploadPage() {
   const [progress, setProgress] = useState("");
   const [error, setError] = useState("");
 
-  const TAG_OPTIONS = ["interior", "exterior", "commercial", "heritage", "object", "space"];
-
   function toggleTag(t: string) {
     setTags((prev) => prev.includes(t) ? prev.filter(x => x !== t) : [...prev, t]);
   }
