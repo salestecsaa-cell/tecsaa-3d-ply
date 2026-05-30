@@ -84,7 +84,7 @@ export default function Navbar() {
             >
               + Upload Splat
             </Link>
-            <UserButton afterSignOutUrl="/explore" />
+            <UserButton />
           </>
         ) : (
           <>
